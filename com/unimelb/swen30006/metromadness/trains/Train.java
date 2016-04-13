@@ -24,7 +24,10 @@ public class Train {
 	public static final Color BACKWARD_COLOUR = Color.VIOLET;
 	public static final float TRAIN_WIDTH=4;
 	public static final float TRAIN_LENGTH = 6;
-	public static final float TRAIN_SPEED=50f;
+	public static final float TRAIN_SPEED=150f;
+	
+	//Controller
+	private TrainController controller;
 
 	// The line that this is traveling on
 	public Line trainLine;
@@ -53,6 +56,7 @@ public class Train {
 		this.state = State.FROM_DEPOT;
 		this.forward = forward;
 		this.passengers = new ArrayList<Passenger>();
+		this.controller = new SimpleController(trainLine);
 	}
 
 	public void update(float delta){
@@ -67,7 +71,7 @@ public class Train {
 			// We have our station initialized we just need to retrieve the next track, enter the
 			// current station offically and mark as in station
 			try {
-				if(this.station.canEnter(this.trainLine)){
+				if(this.station.canEnter()){
 					this.station.enter(this);
 					this.pos = (Point2D.Float) this.station.position.clone();
 					this.state = State.IN_STATION;
@@ -138,7 +142,7 @@ public class Train {
 			// Waiting to enter, we need to check the station has room and if so
 			// then we need to enter, otherwise we just wait
 			try {
-				if(this.station.canEnter(this.trainLine)){
+				if(this.station.canEnter()){
 					this.track.leave(this);
 					this.pos = (Point2D.Float) this.station.position.clone();
 					this.station.enter(this);

@@ -69,7 +69,7 @@ public class Station {
 		}
 	}
 	
-	public boolean canEnter(Line l) throws Exception {
+	public boolean canEnter() throws Exception {
 		return trains.size() < PLATFORMS;
 	}
 
