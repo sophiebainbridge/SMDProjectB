@@ -54,6 +54,7 @@ public class Station {
 	
 	public void enter(Train t) throws Exception {
 		if(trains.size() >= PLATFORMS){
+			
 			throw new Exception();
 		} else {
 			this.trains.add(t);

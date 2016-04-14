@@ -72,8 +72,7 @@ public class Train {
 			// current station offically and mark as in station
 			try {
 				if(this.station.canEnter()){
-					this.station.enter(this);
-					this.pos = (Point2D.Float) this.station.position.clone();
+					enterStation();
 					this.state = State.IN_STATION;
 					this.disembarked = false;
 				}
@@ -144,8 +143,7 @@ public class Train {
 			try {
 				if(this.station.canEnter()){
 					this.track.leave(this);
-					this.pos = (Point2D.Float) this.station.position.clone();
-					this.station.enter(this);
+					enterStation();
 					this.state = State.IN_STATION;
 					this.disembarked = false;
 				}
@@ -157,7 +155,10 @@ public class Train {
 
 
 	}
-
+	private void enterStation() throws Exception{
+		this.pos = (Point2D.Float) this.station.position.clone();
+		this.station.enter(this);
+	}
 	public void move(float delta){
 		// Work out where we're going
 		float angle = angleAlongLine(this.pos.x,this.pos.y,this.station.position.x,this.station.position.y);
