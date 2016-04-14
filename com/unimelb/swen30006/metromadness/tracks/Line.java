@@ -9,15 +9,15 @@ import com.unimelb.swen30006.metromadness.stations.Station;
 public class Line {
 	
 	// The colour of this line
-	public Color lineColour;
-	public Color trackColour;
+	private Color lineColour;
+	private Color trackColour;
 	
 	// The name of this line
-	public String name;
+	private String name;
 	// The stations on this line
-	public ArrayList<Station> stations;
+	private ArrayList<Station> stations;
 	// The tracks on this line between stations
-	public ArrayList<Track> tracks;
+	private ArrayList<Track> tracks;
 		
 	// Create a line
 	public Line(Color stationColour, Color lineColour, String name){
@@ -55,7 +55,7 @@ public class Line {
 	
 	@Override
 	public String toString() {
-		return "Line [lineColour=" + lineColour + ", trackColour=" + trackColour + ", name=" + name + "]";
+		return "Line [lineColour=" + getLineColour() + ", trackColour=" + trackColour + ", name=" + getName() + "]";
 	}
 
 
@@ -114,5 +114,21 @@ public class Line {
 			t.render(renderer);
 		}	
 	}
+
+
+	public String getName() {
+		return name;
+	}
+
+
+	public ArrayList<Station> getStations() {
+		return stations;
+	}
+
+
+	public Color getLineColour() {
+		return lineColour;
+	}
+
 	
 }

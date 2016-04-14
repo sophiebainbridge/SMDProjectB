@@ -26,7 +26,7 @@ public class BigPassengerTrain extends Train {
 			Color col = this.forward ? FORWARD_COLOUR : BACKWARD_COLOUR;
 			float percentage = this.passengers.size()/20f;
 			renderer.setColor(col);
-			renderer.circle(this.pos.x, this.pos.y, TRAIN_WIDTH*(1+percentage)+10);
+			renderer.circle(this.pos.x, this.pos.y, TRAIN_WIDTH*(1+percentage));
 		}
 	}
 

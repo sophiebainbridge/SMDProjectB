@@ -4,6 +4,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.unimelb.swen30006.metromadness.passengers.Passenger;
@@ -30,7 +31,7 @@ public class Train {
 	private TrainController controller;
 
 	// The line that this is traveling on
-	public Line trainLine;
+	private Line trainLine;
 
 	// Passenger Information
 	public ArrayList<Passenger> passengers;
@@ -60,10 +61,6 @@ public class Train {
 	}
 
 	public void update(float delta){
-		// Update all passengers
-		for(Passenger p: this.passengers){
-			p.update(delta);
-		}
 		
 		// Update the state
 		switch(this.state) {
@@ -186,7 +183,7 @@ public class Train {
 
 	@Override
 	public String toString() {
-		return "Train [line=" + this.trainLine.name +", departureTimer=" + departureTimer + ", pos=" + pos + ", forward=" + forward + ", state=" + state
+		return "Train [line=" + this.trainLine.getName() +", departureTimer=" + departureTimer + ", pos=" + pos + ", forward=" + forward + ", state=" + state
 				+ ", numTrips=" + numTrips + ", disembarked=" + disembarked + "]";
 	}
 
@@ -204,6 +201,10 @@ public class Train {
 			renderer.setColor(col);
 			renderer.circle(this.pos.x, this.pos.y, TRAIN_WIDTH);
 		}
+	}
+
+	public Line getTrainLine() {
+		return trainLine;
 	}
 	
 }

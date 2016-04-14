@@ -10,4 +10,7 @@ public interface PassengerRouter {
 
 	public boolean shouldLeave(Station current, Passenger p);
 	
+	public boolean getOn(Station current, Passenger p);
+		
+	
 }
