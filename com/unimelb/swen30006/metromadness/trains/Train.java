@@ -4,7 +4,6 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.unimelb.swen30006.metromadness.passengers.Passenger;
@@ -26,9 +25,6 @@ public class Train {
 	public static final float TRAIN_WIDTH=4;
 	public static final float TRAIN_LENGTH = 6;
 	public static final float TRAIN_SPEED=150f;
-	
-	//Controller
-	private TrainController controller;
 
 	// The line that this is traveling on
 	private Line trainLine;
@@ -36,7 +32,7 @@ public class Train {
 	// Passenger Information
 	public ArrayList<Passenger> passengers;
 	public float departureTimer;
-	
+
 	// Station and track and position information
 	public Station station; 
 	public Track track;
@@ -50,18 +46,17 @@ public class Train {
 	public int numTrips;
 	public boolean disembarked;
 
-	
+
 	public Train(Line trainLine, Station start, boolean forward){
 		this.trainLine = trainLine;
 		this.station = start;
 		this.state = State.FROM_DEPOT;
 		this.forward = forward;
 		this.passengers = new ArrayList<Passenger>();
-		this.controller = new SimpleController(trainLine);
 	}
 
 	public void update(float delta){
-		
+
 		// Update the state
 		switch(this.state) {
 		case FROM_DEPOT:
@@ -69,8 +64,7 @@ public class Train {
 			// current station offically and mark as in station
 			try {
 				if(this.station.canEnter()){
-					this.station.enter(this);
-					this.pos = (Point2D.Float) this.station.position.clone();
+					enterStation();
 					this.state = State.IN_STATION;
 					this.disembarked = false;
 				}
@@ -78,19 +72,16 @@ public class Train {
 				e.printStackTrace();
 			}
 		case IN_STATION:
-
-			// When in station we want to disembark passengers 
-			// and wait 10 seconds for incoming passgengers
-			if(!this.disembarked){
-				this.disembark();
-				this.departureTimer = this.station.getDepartureTime();
-				this.disembarked = true;
-			} else {
-				// Count down if departure timer. 
-				if(this.departureTimer>0){
+			//System.out.println("IN STATION");
+			if(!disembarked){
+				departureTimer = this.station.getDepartureTime();
+				System.out.println(departureTimer);
+			}
+			else{
+				if(this.departureTimer >0){
 					this.departureTimer -= delta;
-				} else {
-					// We are ready to depart, find the next track and wait until we can enter 
+				}
+				else{// We are ready to depart, find the next track and wait until we can enter
 					try {
 						boolean endOfLine = this.trainLine.endOfLine(this.station);
 						if(endOfLine){
@@ -98,16 +89,18 @@ public class Train {
 						}
 						this.track = this.trainLine.nextTrack(this.station, this.forward);
 						this.state = State.READY_DEPART;
+						this.disembarked = false;
 						break;
 					} catch (Exception e){
 						// Massive error.
 						return;
 					}
 				}
-			}
+			}	
 			break;
-		case READY_DEPART:
 
+		case READY_DEPART:
+			//System.out.println("Ready Depart");
 			// When ready to depart, check that the track is clear and if
 			// so, then occupy it if possible.
 			if(this.track.canEnter(this.forward)){
@@ -119,7 +112,7 @@ public class Train {
 					this.station = next;
 
 				} catch (Exception e) {
-//					e.printStackTrace();
+					//					e.printStackTrace();
 				}
 				this.track.enter(this);
 				this.state = State.ON_ROUTE;
@@ -141,8 +134,7 @@ public class Train {
 			try {
 				if(this.station.canEnter()){
 					this.track.leave(this);
-					this.pos = (Point2D.Float) this.station.position.clone();
-					this.station.enter(this);
+					enterStation();
 					this.state = State.IN_STATION;
 					this.disembarked = false;
 				}
@@ -153,6 +145,11 @@ public class Train {
 		}
 
 
+	}
+
+	private void enterStation() throws Exception{
+		this.pos = (Point2D.Float) this.station.position.clone();
+		this.station.enter(this);
 	}
 
 	public void move(float delta){
@@ -168,29 +165,20 @@ public class Train {
 	}
 
 
-	public ArrayList<Passenger> disembark(){
-		ArrayList<Passenger> disembarking = new ArrayList<Passenger>();
-		Iterator<Passenger> iterator = this.passengers.iterator();
-		while(iterator.hasNext()){
-			Passenger p = iterator.next();
-			if(this.station.shouldLeave(p)){
-				disembarking.add(p);
-				iterator.remove();
-			}
-		}
-		return disembarking;
+	public void disembark(Passenger p) throws Exception{
+		throw new Exception();
 	}
 
 	@Override
 	public String toString() {
 		return "Train [line=" + this.trainLine.getName() +", departureTimer=" + departureTimer + ", pos=" + pos + ", forward=" + forward + ", state=" + state
-				+ ", numTrips=" + numTrips + ", disembarked=" + disembarked + "]";
+				+ ", numTrips=" + numTrips + ", disembarked=" + isDisembarked() + "]";
 	}
 
 	public boolean inStation(){
 		return (this.state == State.IN_STATION || this.state == State.READY_DEPART);
 	}
-	
+
 	public float angleAlongLine(float x1, float y1, float x2, float y2){	
 		return (float) Math.atan2((y2-y1),(x2-x1));
 	}
@@ -206,5 +194,13 @@ public class Train {
 	public Line getTrainLine() {
 		return trainLine;
 	}
-	
+
+	public boolean isDisembarked() {
+		return disembarked;
+	}
+
+	public void setDisembarked(boolean disembarked) {
+		this.disembarked = disembarked;
+	}
+
 }

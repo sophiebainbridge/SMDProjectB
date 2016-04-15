@@ -11,7 +11,13 @@ public class SimpleRouter implements PassengerRouter {
 	}
 
 	@Override
-	public boolean getOn(Station current, Passenger p) {
+	public boolean journeyComplete(Station current, Passenger p) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean shouldBoard(Station current, Passenger p) {
 		// TODO Auto-generated method stub
 		return false;
 	}

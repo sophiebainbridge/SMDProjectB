@@ -29,35 +29,36 @@ public class Simulation {
 		// Create a list of stations
 		this.stations = new ArrayList<Station>();
 		this.stations.addAll(m.getStations());
-
+		for(Station s: stations){
+			s.Initialize();
+		}
 		// Create a list of trains
 		this.trains = new ArrayList<Train>();
 		this.trains.addAll(m.getTrains());
 	}
-
-
 	// Update all the trains in the simulation
 	public void update(){
-
 		// Update all the trains
 		for(Train t: this.trains){
 			t.update(Gdx.graphics.getDeltaTime());
 		}
+		
 		//Update all Stations
-
-		System.out.println("Generate");
 		for(Station s: stations){
 			passengers.addAll(s.update(lines, Gdx.graphics.getDeltaTime()));
 		}
-
-
-
+		
 		// Update all passengers
+		System.out.println(this.passengers.size());
 		for(Passenger p: this.passengers){
 			p.update(Gdx.graphics.getDeltaTime());
 		}
+		
+	
 
 
+	
+		
 	}
 
 	public void render(ShapeRenderer renderer){

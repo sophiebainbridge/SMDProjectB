@@ -11,7 +11,7 @@ public class BigPassengerTrain extends Train {
 	public BigPassengerTrain(Line trainLine, Station start, boolean forward) {
 		super(trainLine, start, forward);
 	}
-	
+
 	@Override
 	public void embark(Passenger p) throws Exception {
 		if(this.passengers.size() > 80){
@@ -20,6 +20,10 @@ public class BigPassengerTrain extends Train {
 		this.passengers.add(p);
 	}
 	
+	public void disembark(Passenger p) throws Exception{
+		
+	}
+
 	@Override
 	public void render(ShapeRenderer renderer){
 		if(!this.inStation()){

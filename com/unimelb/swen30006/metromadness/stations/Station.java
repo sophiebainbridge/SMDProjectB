@@ -29,16 +29,18 @@ public class Station {
 
 	public Station(float x, float y, PassengerRouter router, String name){
 		this.name = name;
-		
 		this.position = new Point2D.Float(x,y);
 		this.lines = new ArrayList<Line>();
+		
+		this.trains = new ArrayList<Train>();
+	}
+	public void Initialize(){
 		if(this.lines.size()>1){
 			this.router = new MultilineRouter();
 		}
 		else{
 			this.router = new BranchRouter();
 		}
-		this.trains = new ArrayList<Train>();
 	}
 	
 	public ArrayList<Passenger> update(ArrayList<Line> lines, float delta){
@@ -75,8 +77,6 @@ public class Station {
 	}
 	
 	
-	
-	
 	public void depart(Train t) throws Exception {
 		if(this.getTrains().contains(t)){
 			this.getTrains().remove(t);
@@ -94,10 +94,6 @@ public class Station {
 		return DEPARTURE_TIME;
 	}
 
-	public boolean shouldLeave(Passenger p) {
-		return this.router.shouldLeave(this, p);
-	}
-
 	@Override
 	public String toString() {
 		return "Station [position=" + position + ", name=" + getName() + ", trains=" + getTrains().size()
@@ -113,6 +109,9 @@ public class Station {
 		return trains;
 	}
 
+	public PassengerRouter getRouter() {
+		return router;
+	}
 	public ArrayList<Line> getLines() {
 		return lines;
 	}

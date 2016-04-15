@@ -10,9 +10,13 @@ public class BranchRouter implements PassengerRouter {
 		return current.equals(p.getDestination());
 		
 	}
+	
+	public boolean journeyComplete(Station current, Passenger p){
+		return current.equals(p.getDestination());
+	}
 
 	@Override
-	public boolean getOn(Station current, Passenger p) {
+	public boolean shouldBoard(Station current, Passenger p) {
 		return true;
 	}
 

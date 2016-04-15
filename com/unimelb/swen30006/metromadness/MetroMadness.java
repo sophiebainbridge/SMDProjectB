@@ -19,6 +19,9 @@ public class MetroMadness extends ApplicationAdapter {
 	// The width of the world in unitless dimensions
 	static final int WORLD_WIDTH = 1200;
 	static final int WORLD_HEIGHT = 1200;
+	static final int INITIAL_CAMERA_X = 600;
+	static final int INITIAL_CAMERA_Y = 600;
+	static final int INITIAL_CAMERA_ZOOM = 6;
 
 	// Viewport state
 	int VIEWPORT_WIDTH=200;
@@ -50,7 +53,8 @@ public class MetroMadness extends ApplicationAdapter {
 		float h = Gdx.graphics.getHeight();
 		viewport_width = VIEWPORT_WIDTH;
 		camera = new OrthographicCamera(viewport_width, viewport_width * (h / w));
-		camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
+		camera.zoom = INITIAL_CAMERA_ZOOM;
+		camera.position.set(INITIAL_CAMERA_X, INITIAL_CAMERA_Y, 0);
 		camera.update();
 
 		// Create our shape renderer

@@ -26,13 +26,21 @@ public class MultilineRouter implements PassengerRouter {
 	}
 
 	@Override
-	public boolean getOn(Station current, Passenger p) {
+	public boolean shouldBoard(Station current, Passenger p) {
 		//See if train in station currently is the right one
 		for(Train t: current.getTrains()){
-			if(t.getTrainLine().getStations().contains(p.getDestination()))
+			if(t.getTrainLine().getStations().contains(p.getDestination())){
+				System.out.println("Get ON");
 					return true;
+			}
 		}
 		return false;
+	}
+
+	@Override
+	public boolean journeyComplete(Station current, Passenger p) {
+		// TODO Auto-generated method stub
+		return p.getDestination().equals(current);
 	}
 
 }

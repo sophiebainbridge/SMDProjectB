@@ -1,13 +1,13 @@
 package com.unimelb.swen30006.metromadness.passengers;
 
 import com.unimelb.swen30006.metromadness.stations.Station;
+import com.unimelb.swen30006.metromadness.trains.Train;
 
 public class Passenger {
 
-	private Station currStation;
+	public Station currStation;
 	private Station destination;
-	
-
+	private Train train;
 	private float travelTime;
 	protected boolean reachedDestination;
 	
@@ -24,9 +24,7 @@ public class Passenger {
 		}
 	}
 	
-	public Station getCurrStation() {
-		return currStation;
-	}
+	
 
 	public Station getDestination() {
 		return destination;
